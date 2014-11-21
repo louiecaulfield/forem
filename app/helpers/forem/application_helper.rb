@@ -1,6 +1,22 @@
 module Forem
   module ApplicationHelper
     include FormattingHelper
+    def forem_title(record, suffix = nil)
+      return unless defined? title
+      separator = " - "
+      prefix = "Forum#{separator}"
+      if record.is_a?(Category)
+        title "#{prefix}#{record.name}"
+      elsif record.is_a?(Forum)
+        title "#{prefix}#{record.name}"
+      elsif record.is_a?(Topic)
+        title "#{prefix}#{record.subject}" 
+      else
+        title "Forum"
+      end
+      title "#{separator}#{suffix}" unless suffix.nil?
+    end
+    
     # processes text with installed markup formatter
     def forem_format(text, *options)
       forem_emojify(as_formatted_html(text))
